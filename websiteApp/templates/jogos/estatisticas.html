@@ -1,0 +1,94 @@
+{% extends 'jogos.html' %}
+
+{% block sub_content %}
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Estatísticas de Combinações Vencedoras</h3>
+
+    <form method="GET" action="{% url 'estatisticas' %}">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label for="filtro_concursos" class="form-label">Últimos X Concursos</label>
+                <input 
+                    type="number" 
+                    class="form-control" 
+                    id="filtro_concursos" 
+                    name="filtro_concursos" 
+                    placeholder="Digite o número de concursos" 
+                    value="{{ filtro_concursos|default:'' }}" 
+                    required
+                >
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar Estatísticas</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Exibição dos concursos -->
+    {% if concurso_inicial and concurso_final %}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <p class="text-center">Concurso Mais Antigo Selecionado: <strong>{{ resultados.mais_antigo }}</strong></p>
+        </div>
+        <div class="col-md-6">
+            <p class="text-center">Último Concurso Selecionado: <strong>{{ resultados.mais_recente }}</strong></p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Exibição da combinação selecionada -->
+    {% if combinacao %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <p class="text-center">Combinação Selecionada: 
+                <strong>{{ combinacao|join:", " }}</strong>
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Painéis de estatísticas -->
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-header">Média de 15 Pontos</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ media_p15 }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-header">Média de 14 Pontos</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ media_p14 }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-warning">
+                <div class="card-header">Média de 13 Pontos</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ media_p13 }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-header">Média de 12 Pontos</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ media_p12 }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-white bg-secondary">
+                <div class="card-header">Média de 11 Pontos</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ media_p11 }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

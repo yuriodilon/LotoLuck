@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Mini Menu -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav class="nav nav-pills nav-fill">
+                <a class="nav-link {% if request.resolver_match.url_name == 'meus_jogos' %}active{% endif %}" href="{% url 'meus_jogos' %}">Meus Jogos</a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'conferir_jogos' %}active{% endif %}" href="{% url 'conferir_jogos' %}">Conferir Jogos</a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'estatisticas' %}active{% endif %}" href="{% url 'estatisticas' %}">Estatísticas</a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'gerar_jogos' %}active{% endif %}" href="{% url 'gerar_jogos' %}">Gerar Novos Jogos</a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'configuracoes' %}active{% endif %}" href="{% url 'configuracoes' %}">Configurações</a>
+            </nav>
+        </div>
+    </div>
+    <!-- Sub-bloco de conteúdo -->
+    {% block sub_content %}
+    {% endblock %}
+</div>
+{% endblock %}

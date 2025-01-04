@@ -1,0 +1,79 @@
+{% extends 'jogos.html' %}
+
+{% block sub_content %}
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Conferir Jogos</h3>
+    <form method="POST" action="{% url 'conferir_jogos' %}">
+        {% csrf_token %}
+        <!-- Campo para digitar a sequência de 15 dezenas -->
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label for="dezenas" class="form-label">Digite as 15 dezenas</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="dezenas" 
+                    name="dezenas" 
+                    placeholder="Ex: 1, 2, 3, 4, 5, ..." 
+                    required
+                >
+            </div>
+        </div>
+
+        <!-- Botão de ação -->
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Conferir</button>
+        </div>
+    </form>
+
+    <!-- Exibição dos resultados -->
+    {% if resultados %}
+    <div class="mt-5">
+        <h4 class="text-center">Resultados Históricos</h4>
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>15 Pontos</th>
+                    <th>14 Pontos</th>
+                    <th>13 Pontos</th>
+                    <th>12 Pontos</th>
+                    <th>11 Pontos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ resultados.p15 }}</td>
+                    <td>{{ resultados.p14 }}</td>
+                    <td>{{ resultados.p13 }}</td>
+                    <td>{{ resultados.p12 }}</td>
+                    <td>{{ resultados.p11 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% elif resultados is not none %}
+    <div class="mt-5">
+        <p class="text-center">Nenhum histórico encontrado para essa combinação.</p>
+    </div>
+    {% endif %}
+</div>
+<!-- FORMATA AUTOMATCCAMENTE OS NUMEROS PARA SEREM PESQUISADOS  -->
+<script>
+    const dezenasInput = document.getElementById('dezenas');
+
+    // Formatar o texto automaticamente ao colar ou sair do campo
+    dezenasInput.addEventListener('input', formatDezenas);
+    dezenasInput.addEventListener('blur', formatDezenas);
+
+    function formatDezenas() {
+        let value = dezenasInput.value;
+
+        // Remover espaços extras e deixar apenas números e vírgulas
+        value = value.replace(/\s+/g, '').replace(/[^0-9,]/g, '');
+
+        // Garantir que os números estejam separados por vírgulas
+        const numeros = value.split(',').filter(num => num !== ''); // Remover valores vazios
+        dezenasInput.value = numeros.join(', ');
+    }
+</script>
+{% endblock %}

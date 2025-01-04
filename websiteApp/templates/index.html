@@ -1,0 +1,32 @@
+{% load static %}
+{% load django_bootstrap5 %}
+
+
+<!DOCTYPE html>
+<html lang="Pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador Lotofacil - By Yuri</title>
+    {% bootstrap_css %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div id="content">
+        {% block content %}
+        <!-- Conteúdo dinâmico será carregado aqui -->
+        {% endblock content %}
+    </div>
+
+    <script>
+    $(document).ready(function(){
+        $("a.ajax-link").click(function(e){
+            e.preventDefault();  // Prevent the default behavior of the link
+            var url = $(this).attr("href");  // Get the href attribute
+            $("#content").load(url + " #content");  // Load the content into the container
+        });
+    });
+    </script>
+</body>
+</html>

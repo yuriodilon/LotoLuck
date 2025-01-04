@@ -1,0 +1,72 @@
+{% extends 'jogos.html' %}
+
+{% block sub_content %}
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Meus Jogos</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome do Jogo</th>
+                    <th>Data de Criação</th>
+                    <th>Concurso</th>
+                    <th>Bola 1</th>
+                    <th>Bola 2</th>
+                    <th>Bola 3</th>
+                    <th>Bola 4</th>
+                    <th>Bola 5</th>
+                    <th>Bola 6</th>
+                    <th>Bola 7</th>
+                    <th>Bola 8</th>
+                    <th>Bola 9</th>
+                    <th>Bola 10</th>
+                    <th>Bola 11</th>
+                    <th>Bola 12</th>
+                    <th>Bola 13</th>
+                    <th>Bola 14</th>
+                    <th>Bola 15</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if jogos %}
+                    {% for jogo in jogos %}
+                    <tr>
+                        <td>{{ jogo.nJogo }}</td>
+                        <td>{{ jogo.nomeJogo }}</td>
+                        <td>{{ jogo.data_criacao|date:"d/m/Y H:i" }}</td>
+                        <td>{{ jogo.nJogo }}</td>
+                        <td>{{ jogo.bola1 }}</td>
+                        <td>{{ jogo.bola2 }}</td>
+                        <td>{{ jogo.bola3 }}</td>
+                        <td>{{ jogo.bola4 }}</td>
+                        <td>{{ jogo.bola5 }}</td>
+                        <td>{{ jogo.bola6 }}</td>
+                        <td>{{ jogo.bola7 }}</td>
+                        <td>{{ jogo.bola8 }}</td>
+                        <td>{{ jogo.bola9 }}</td>
+                        <td>{{ jogo.bola10 }}</td>
+                        <td>{{ jogo.bola11 }}</td>
+                        <td>{{ jogo.bola12 }}</td>
+                        <td>{{ jogo.bola13 }}</td>
+                        <td>{{ jogo.bola14 }}</td>
+                        <td>{{ jogo.bola15 }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'excluir_jogo' jogo.nJogo %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                            </form>                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="20" class="text-center">Nenhum jogo salvo.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

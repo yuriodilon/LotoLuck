@@ -1,0 +1,100 @@
+{% extends 'jogos.html' %}
+
+{% block sub_content %}
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Gerar Novos Jogos</h3>
+    <form method="POST" action="{% url 'gerar_jogos' %}">
+        {% csrf_token %}
+        <div class="row">
+            <!-- Nome do Jogo -->
+            <div class="col-md-6 mb-3">
+                <label for="nomeJogo" class="form-label">Nome do Jogo</label>
+                <input type="text" class="form-control" id="nomeJogo" name="nomeJogo" placeholder="Ex: Jogo da Sorte" required>
+            </div>
+
+            <!-- Número do Concurso -->
+            <div class="col-md-6 mb-3">
+                <label for="concurso" class="form-label">Número do Concurso</label>
+                <input type="number" class="form-control" id="concurso" name="concurso" placeholder="Ex: 3284" required>
+            </div>
+        </div>
+
+        <!-- Campo para Digitar as 15 Dezenas -->
+        <div class="row">
+            <div class="col-12 mb-3">
+                <label for="dezenas" class="form-label">Digite as 15 Dezenas</label>
+                <input type="text" class="form-control" id="dezenas" name="dezenas" placeholder="Ex: 1, 2, 3, 4, 5, ..." required>
+            </div>
+        </div>
+
+        <!-- Checkbox para Filtro -->
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="filtro_15pontos" name="filtro_15pontos">
+            <label class="form-check-label" for="filtro_15pontos">
+                Eliminar combinações que já atingiram 15 pontos
+            </label>
+        </div>
+
+        <!-- Botão para Gerar Números Aleatórios -->
+        <div class="row mb-3">
+            <div class="col-12 text-center">
+                <button type="button" class="btn btn-secondary" id="gerarAleatorios">Gerar Números Aleatórios</button>
+            </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Salvar Jogo</button>
+            <a href="{% url 'meus_jogos' %}" class="btn btn-secondary ms-3">Cancelar</a>
+        </div>
+    </form>
+
+    <!-- Análise de Jogo -->
+    <div class="mt-5">
+        <h4 class="text-center">Análise de Jogo</h4>
+        <div class="alert alert-info">
+            <p><strong>Chance de Acerto Total dos 15 Pontos:</strong></p>
+            <p>1 em {{ chance_15_pontos }} jogos</p>
+
+            <!-- Exibição Condicional -->
+            <div id="analiseFiltro" style="display: none;">
+                <p class="text-danger mt-3">
+                    <strong>Probabilidade Atual com o Filtro:</strong><br>
+                    1 em {{ probabilidade_atual }}
+                </p>
+                <p>
+                    <strong>Benefício do Filtro:</strong>
+                    Você está eliminando {{ combinacoes_eliminadas }} combinações vencedoras, 
+                    aumentando as suas chances de encontrar uma combinação inédita para atingir 15 pontos.
+                </p>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Gerar Números Aleatórios
+    document.getElementById('gerarAleatorios').addEventListener('click', function () {
+        const inputDezenas = document.getElementById('dezenas');
+        const numerosAleatorios = [];
+        while (numerosAleatorios.length < 15) {
+            const numero = Math.floor(Math.random() * 25) + 1; // Gera números de 1 a 25
+            if (!numerosAleatorios.includes(numero)) {
+                numerosAleatorios.push(numero);
+            }
+        }
+        inputDezenas.value = numerosAleatorios.sort((a, b) => a - b).join(', ');
+    });
+
+    // Controlar a Visibilidade da Análise de Filtro
+    document.getElementById('filtro_15pontos').addEventListener('change', function () {
+        const analiseFiltro = document.getElementById('analiseFiltro');
+        if (this.checked) {
+            analiseFiltro.style.display = 'block';
+        } else {
+            analiseFiltro.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}
